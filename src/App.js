@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { ThemeProvider } from '@material-ui/styles'
+import { createMuiTheme } from '@material-ui/core/styles'
+import NewPatientForm from './components/NewPatientForm'
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#00a3c1'
+    },
+    secondary: {
+      main: '#e3622f'
+    }
+  }
+})
 
 function App() {
+  const [patientInfo, setPatientInfo] = useState({})
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ThemeProvider theme={theme}>
+      <NewPatientForm patientInfo={patientInfo}/>
+    </ThemeProvider>
+  )
 }
 
-export default App;
+export default App
