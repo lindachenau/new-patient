@@ -6,6 +6,7 @@ const getPatientURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/get-patient`
 const addMessageURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/add-message`
 const getNumVisitsURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/get-numvisits`
 const setEmergencyContactURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/set-emergency-contact`
+const updateHealthFundURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/update-healthfund`
 
 const addMessageToBP = async (userID, subject, message, patID) => {
   try {
