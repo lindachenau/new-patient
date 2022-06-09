@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { ThemeProvider } from '@material-ui/styles'
 import { createMuiTheme } from '@material-ui/core/styles'
 import NewPatientForm from './components/NewPatientForm'
@@ -15,11 +15,10 @@ const theme = createMuiTheme({
 })
 
 function App() {
-  const [patientInfo, setPatientInfo] = useState({})
 
   return (
     <ThemeProvider theme={theme}>
-      <NewPatientForm patientInfo={patientInfo}/>
+      <NewPatientForm/>
     </ThemeProvider>
   )
 }

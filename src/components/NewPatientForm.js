@@ -6,11 +6,12 @@ import Typography from '@material-ui/core/Typography'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import { addPatientToBP, getPatientFromBP } from '../utils/booking-api'
+import { addPatientToBP, getPatientFromBP, setEmergencyContact, updateHealthFund } from '../utils/booking-api'
 import Profile from './Profile'
 import PatientContact from './PatientContact'
 import Medicare from './Medicare'
 import Pension from './Pension'
+import HealthFund from './HealthFund'
 import moment from 'moment'
 import logo from '../images/AMCE_banner.png'
 
@@ -50,12 +51,17 @@ function NewPatientForm({}) {
   const [pensionCode, setPensionCode] = useState(0)
   const [pensionNo, setPensionNo] = useState('')
   const [pensionExpiry, setPensionExpiry] = useState(null)
+  const [healthFundNo, setHealthFundNo] = useState('')
+  const [healthFundName, setHealthFundName] = useState('')
+  const [healthFundExpiry, setHealthFundExpiry] = useState(null)
   const [withMedicare, setWithMedicare] = useState(false)
   const [withPension, setWithPension] = useState(false)
+  const [withHealthFund, setWithHealthFund] = useState(false)
   const profileComplete = firstName && lastName && dOB && gender > 0
   const contactComplete = address && mobile && emergencyContactFirstname && emergencyContactSurname && setEmergencyContactPhone && emergencyContactRelationship
   const medicareComplete = !withMedicare || (medicareNo && iRN && expiry)
   const pensionComplete = !withPension || (pensionCode > 0 && pensionNo && pensionExpiry)
+  const healthFundComplete = !withHealthFund || (healthFundName && healthFundNo && healthFundExpiry)
 
   const parseAddress = (address) => {
     const comma = address.indexOf(',')
@@ -88,7 +94,8 @@ function NewPatientForm({}) {
     }
 
     const {address1, city, postcode} = parseAddress(address)
-    const result = await addPatientToBP(
+    const pensionExpiryBP = pensionExpiry ? moment(pensionExpiry).format("YYYY-MM-DD") : null
+    const patientID = await addPatientToBP(
       title, 
       firstName, 
       lastName, 
@@ -106,11 +113,19 @@ function NewPatientForm({}) {
       expiry,
       pensionCode, 
       pensionNo, 
-      pensionExpiry
+      pensionExpiryBP
     )
 
-    const message = result > 0 ? "Your registration has completed successfully." : "Something went wrong. Please contact the practice."
-    alert(message)
+    if (patientID > 0) {
+      alert("Your registration has completed successfully.")
+      setEmergencyContact(patientID, emergencyContactFirstname, emergencyContactSurname, emergencyContactPhone, emergencyContactRelationship)
+      if (withHealthFund) {
+        const healthFundExpiryBP = moment(healthFundExpiry).format("YYYY-MM-DD")
+        updateHealthFund(patientID, healthFundNo, healthFundName, healthFundExpiryBP)
+      }
+    } else {
+      alert("Something went wrong. Please contact the practice.")
+    }
   }
   
   return (
@@ -163,6 +178,10 @@ function NewPatientForm({}) {
             label="I have Medicare."
           />      
           <FormControlLabel
+            control={<Checkbox checked={withHealthFund} onChange={() => setWithHealthFund(!withHealthFund)} color='primary' />}
+            label="I don't have Medicare but I have a health fund."
+          />      
+          <FormControlLabel
             control={<Checkbox checked={withPension} onChange={() => setWithPension(!withPension)} color='primary' />}
             label="I'm a pensioner."
           />      
@@ -177,6 +196,17 @@ function NewPatientForm({}) {
           setIRN={setIRN}
           expiry={expiry}
           setExpiry={setExpiry}
+        />
+      }
+      {
+        withHealthFund &&
+        <HealthFund
+          healthFundNo={healthFundNo}
+          setHealthFundNo={setHealthFundNo}
+          healthFundName={healthFundName}
+          setHealthFundName={setHealthFundName}
+          healthFundExpiry={healthFundExpiry}
+          setHealthFundExpiry={setHealthFundExpiry}
         />
       }
       {
@@ -195,7 +225,7 @@ function NewPatientForm({}) {
           variant="contained" 
           color="primary" 
           onClick={handleSubmit} 
-          disabled={!(profileComplete && contactComplete && medicareComplete && pensionComplete)} >
+          disabled={!(profileComplete && contactComplete && medicareComplete && pensionComplete && healthFundComplete)} >
           Submit
         </Button>
       </div>

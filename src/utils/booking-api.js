@@ -120,7 +120,7 @@ export const getNumVisitsFromBP = async (bpPatientId) => {
   }
 }
 
-export const setEmergencyContact = async (patientID, emergencyContactFirstname, emergencyContactSurname, emergencyContactPhone, emergencyContactRelationship) => {
+export const setEmergencyContact = async (patientID, firstname, surname, contactPhone, relationship) => {
   try {
     const config = {
       method: 'post',
@@ -128,14 +128,33 @@ export const setEmergencyContact = async (patientID, emergencyContactFirstname, 
       url: setEmergencyContactURL,
       data: {
         patientID, 
-        emergencyContactFirstname, 
-        emergencyContactSurname, 
-        emergencyContactPhone, 
-        emergencyContactRelationship
+        firstname, 
+        surname, 
+        contactPhone, 
+        relationship
       }
     }
     await axios(config)
   } catch(err) {
     console.error('BP_SetEmergencyContact error', err)
+  }
+}
+
+export const updateHealthFund = async (patientID, healthFundNo, healthFundName, healthFundExpiry) => {
+  try {
+    const config = {
+      method: 'post',
+      headers: {"Content-Type": "application/json"},
+      url: updateHealthFundURL,
+      data: {
+        patientID, 
+        healthFundNo, 
+        healthFundName, 
+        healthFundExpiry
+      }
+    }
+    await axios(config)
+  } catch(err) {
+    console.error('BP_UpdateHealthFund error', err)
   }
 }
