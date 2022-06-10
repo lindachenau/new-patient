@@ -15,7 +15,7 @@ import { patientTitles, patientSexCodes } from "../utils/bp-codes"
 export default function Profile({title, setTitle, firstName, setFirstName, lastName, setLastName, dOB, setDOB, gender, setGender}) {
 
   return (
-    <Container maxWidth='sm' style={{marginTop: 20, marginBottom: 20}}>
+    <Container maxWidth='sm' disableGutters style={{marginTop: 20, marginBottom: 20}}>
       <Typography variant='h6'>Patient profile</Typography>
       <FormControl fullWidth>
         <InputLabel htmlFor="title-native-simple">Title</InputLabel>

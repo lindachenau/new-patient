@@ -10,7 +10,7 @@ import {
 
 export default function HealthFund({healthFundNo, setHealthFundNo, healthFundName, setHealthFundName, healthFundExpiry, setHealthFundExpiry}) {
   return (
-    <Container maxWidth='sm' style={{marginTop: 20, marginBottom: 20}}>
+    <Container maxWidth='sm' disableGutters style={{marginTop: 20, marginBottom: 20}}>
       <Typography variant='h6'>Health Fund</Typography>
         <TextField
           required

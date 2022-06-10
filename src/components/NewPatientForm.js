@@ -18,7 +18,8 @@ import logo from '../images/AMCE_banner.png'
 const useStyles = makeStyles(theme => ({
   center: {
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: 20
   },
   logo: {
     height: 150,
@@ -168,7 +169,7 @@ function NewPatientForm({}) {
         emergencyContactRelationship={emergencyContactRelationship}
         setEmergencyContactRelationship={setEmergencyContactRelationship}
       />
-      <Container maxWidth='sm' style={{marginTop: 30}}>
+      <Container maxWidth='sm' disableGutters style={{marginTop: 30}}>
         <Typography gutterBottom variant="body1" color='primary'>
           Please tick relevant 
         </Typography>            

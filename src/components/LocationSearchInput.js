@@ -61,6 +61,7 @@ export default function LocationSearchInput ({ address, changeAddr, disabled=fal
                 </InputAdornment>
               }
               disabled={disabled}
+              multiline
             />
           </FormControl>
           <div>

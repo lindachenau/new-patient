@@ -32,7 +32,7 @@ export default function Medicare({medicareNo, setMedicareNo, iRN, setIRN, expiry
   }
   
   return (
-    <Container maxWidth='sm' style={{marginTop: 20, marginBottom: 20}}>
+    <Container maxWidth='sm' disableGutters style={{marginTop: 20, marginBottom: 20}}>
       <Typography variant='h6'>Medicare</Typography>
       <TextField
         required

@@ -13,7 +13,7 @@ export default function PatientContact({address, setAddress, email, setEmail, mo
   }
 
   return (
-    <Container maxWidth='sm' style={{marginTop: 20, marginBottom: 20}}>
+    <Container maxWidth='sm' disableGutters style={{marginTop: 20, marginBottom: 20}}>
       <Typography variant='h6' gutterBottom>Address, Contact & Email</Typography>
       <LocationSearchInput
         address={address} 

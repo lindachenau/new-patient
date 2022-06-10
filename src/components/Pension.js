@@ -15,7 +15,7 @@ import { pensionCodes } from "../utils/bp-codes"
 export default function Pension({pensionCode, setPensionCode, pensionNo, setPensionNo, pensionExpiry, setPensionExpiry}) {
 
   return (
-    <Container maxWidth='sm' style={{marginTop: 20, marginBottom: 20}}>
+    <Container maxWidth='sm' disableGutters style={{marginTop: 20, marginBottom: 20}}>
       <Typography variant='h6'>Pension</Typography>
         <FormControl fullWidth>
           <InputLabel htmlFor="pension-card-type">Pension card type*</InputLabel>
