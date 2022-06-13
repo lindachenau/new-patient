@@ -12,39 +12,39 @@ export default function HealthFund({healthFundNo, setHealthFundNo, healthFundNam
   return (
     <Container maxWidth='sm' disableGutters style={{marginTop: 20, marginBottom: 20}}>
       <Typography variant='h6'>Health Fund</Typography>
-        <TextField
+      <TextField
+        required
+        margin="dense"
+        label="Health fund name"
+        type="text"
+        fullWidth
+        value={healthFundName}
+        onChange={(event) => setHealthFundName(event.target.value.trim())}
+      />
+      <TextField
+        required
+        margin="dense"
+        label="Member number"
+        type="text"
+        fullWidth
+        value={healthFundNo}
+        onChange={(event) => setHealthFundNo(event.target.value.trim())}
+      />
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <KeyboardDatePicker
           required
-          margin="dense"
-          label="Health fund name"
-          type="text"
           fullWidth
-          value={healthFundName}
-          onChange={(event) => setHealthFundName(event.target.value.trim())}
+          margin="normal"
+          id="date-picker-dialog"
+          format="dd/MM/yyyy"
+          label="Expiry(dd/MM/yyyy)"
+          value={healthFundExpiry}
+          onChange={(date) => setHealthFundExpiry(date)}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
         />
-        <TextField
-          required
-          margin="dense"
-          label="Member number"
-          type="text"
-          fullWidth
-          value={healthFundNo}
-          onChange={(event) => setHealthFundNo(event.target.value.trim())}
-        />
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            required
-            fullWidth
-            margin="normal"
-            id="date-picker-dialog"
-            format="dd/MM/yyyy"
-            label="Expiry(dd/MM/yyyy)"
-            value={healthFundExpiry}
-            onChange={(date) => setHealthFundExpiry(date)}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-          />
-        </MuiPickersUtilsProvider>            
-  </Container>
+      </MuiPickersUtilsProvider>            
+    </Container>
   )
 }

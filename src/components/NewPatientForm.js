@@ -5,11 +5,15 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import { addPatientToBP, getPatientFromBP, setEmergencyContact, updateHealthFund } from '../utils/booking-api'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormControl from '@material-ui/core/FormControl'
+import FormLabel from '@material-ui/core/FormLabel'
+import { addPatientToBP, getPatientFromBP, setEmergencyContact, updateHealthFund, updateDVA } from '../utils/booking-api'
 import Profile from './Profile'
 import PatientContact from './PatientContact'
 import Medicare from './Medicare'
+import DVA from './DVA'
 import Pension from './Pension'
 import HealthFund from './HealthFund'
 import moment from 'moment'
@@ -52,17 +56,21 @@ function NewPatientForm({}) {
   const [pensionCode, setPensionCode] = useState(0)
   const [pensionNo, setPensionNo] = useState('')
   const [pensionExpiry, setPensionExpiry] = useState(null)
+  const [dVACode, setDVACode] = useState(0)
+  const [dVANo, setDVANo] = useState('')
   const [healthFundNo, setHealthFundNo] = useState('')
   const [healthFundName, setHealthFundName] = useState('')
   const [healthFundExpiry, setHealthFundExpiry] = useState(null)
-  const [withMedicare, setWithMedicare] = useState(false)
-  const [withPension, setWithPension] = useState(false)
-  const [withHealthFund, setWithHealthFund] = useState(false)
+  const [medicare, setMedicare] = useState("Y")
+  const [veteran, setVeteran] = useState("N")
+  const [pension, setPension] = useState("N")
+  const [healthFund, setHealthFund] = useState("N")
   const profileComplete = firstName && lastName && dOB && gender > 0
   const contactComplete = address && mobile && emergencyContactFirstname && emergencyContactSurname && setEmergencyContactPhone && emergencyContactRelationship
-  const medicareComplete = !withMedicare || (medicareNo && iRN && expiry)
-  const pensionComplete = !withPension || (pensionCode > 0 && pensionNo && pensionExpiry)
-  const healthFundComplete = !withHealthFund || (healthFundName && healthFundNo && healthFundExpiry)
+  const medicareComplete = medicare === "N" || (medicareNo && iRN && expiry)
+  const pensionComplete = pension === "N" || (pensionCode > 0 && pensionNo && pensionExpiry)
+  const dVAComplete = veteran === "N" || (dVACode > 0 && dVANo)
+  const healthFundComplete = healthFund === "N" || (healthFundName && healthFundNo && healthFundExpiry)
 
   const parseAddress = (address) => {
     const comma = address.indexOf(',')
@@ -120,12 +128,25 @@ function NewPatientForm({}) {
     if (patientID > 0) {
       alert("Your registration has completed successfully.")
       setEmergencyContact(patientID, emergencyContactFirstname, emergencyContactSurname, emergencyContactPhone, emergencyContactRelationship)
-      if (withHealthFund) {
+      if (veteran === "Y") {
+        updateDVA(patientID, dVACode, dVANo)
+      }
+      if (healthFund === "Y") {
         const healthFundExpiryBP = moment(healthFundExpiry).format("YYYY-MM-DD")
         updateHealthFund(patientID, healthFundNo, healthFundName, healthFundExpiryBP)
       }
     } else {
       alert("Something went wrong. Please contact the practice.")
+    }
+  }
+
+  const handleMedicare = (event) => {
+    setMedicare(event.target.value)
+    if (event.target.value === 'N') {
+      setVeteran('N')
+      setPension('N')
+    } else {
+      setHealthFund('N')
     }
   }
   
@@ -170,26 +191,16 @@ function NewPatientForm({}) {
         setEmergencyContactRelationship={setEmergencyContactRelationship}
       />
       <Container maxWidth='sm' disableGutters style={{marginTop: 30}}>
-        <Typography gutterBottom variant="body1" color='primary'>
-          Please tick relevant 
-        </Typography>            
-        <FormGroup>
-          <FormControlLabel
-            control={<Checkbox checked={withMedicare} onChange={() => setWithMedicare(!withMedicare)} color='primary' />}
-            label="I have Medicare."
-          />      
-          <FormControlLabel
-            control={<Checkbox checked={withHealthFund} onChange={() => setWithHealthFund(!withHealthFund)} color='primary' />}
-            label="I don't have Medicare but I have a health fund."
-          />      
-          <FormControlLabel
-            control={<Checkbox checked={withPension} onChange={() => setWithPension(!withPension)} color='primary' />}
-            label="I'm a pensioner."
-          />      
-        </FormGroup>
-      </Container>
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Do you have Medicare?</FormLabel>
+          <RadioGroup aria-label="medicare" value={medicare} onChange={handleMedicare}>
+            <FormControlLabel value="Y" control={<Radio />} label="Yes" />
+            <FormControlLabel value="N" control={<Radio />} label="No" />
+          </RadioGroup>
+        </FormControl>              
+      </Container>        
       {
-        withMedicare &&
+        medicare === 'Y' &&
         <Medicare
           medicareNo={medicareNo}
           setMedicareNo={setMedicareNo}
@@ -199,8 +210,20 @@ function NewPatientForm({}) {
           setExpiry={setExpiry}
         />
       }
+      { 
+        medicare === 'N' &&
+        <Container maxWidth='sm' disableGutters style={{marginTop: 30}}>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Do you have a health fund?</FormLabel>
+            <RadioGroup aria-label="health fund" value={healthFund} onChange={(event) => setHealthFund(event.target.value)}>
+              <FormControlLabel value="Y" control={<Radio />} label="Yes" />
+              <FormControlLabel value="N" control={<Radio />} label="No" />
+            </RadioGroup>
+          </FormControl>              
+        </Container>
+      }
       {
-        withHealthFund &&
+        healthFund === 'Y' &&
         <HealthFund
           healthFundNo={healthFundNo}
           setHealthFundNo={setHealthFundNo}
@@ -211,7 +234,40 @@ function NewPatientForm({}) {
         />
       }
       {
-        withPension &&
+        medicare === 'Y' &&
+        <Container maxWidth='sm' disableGutters style={{marginTop: 30}}>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Are you a veteran?</FormLabel>
+            <RadioGroup aria-label="veteran" value={veteran} onChange={(event) => setVeteran(event.target.value)}>
+              <FormControlLabel value="Y" control={<Radio />} label="Yes" />
+              <FormControlLabel value="N" control={<Radio />} label="No" />
+            </RadioGroup>
+          </FormControl>              
+        </Container>
+      }
+      {
+        veteran === 'Y' &&
+        <DVA
+          dVACode={dVACode}
+          setDVACode={setDVACode}
+          dVANo={dVANo}
+          setDVANo={setDVANo}
+        />
+      }
+      { 
+        medicare === 'Y' && veteran === 'N' &&
+        <Container maxWidth='sm' disableGutters style={{marginTop: 30}}>      
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Are you a pensioner?</FormLabel>
+            <RadioGroup aria-label="pension" value={pension} onChange={(event) => setPension(event.target.value)}>
+              <FormControlLabel value="Y" control={<Radio />} label="Yes" />
+              <FormControlLabel value="N" control={<Radio />} label="No" />
+            </RadioGroup>
+          </FormControl>              
+        </Container>
+      }
+      {
+        pension === 'Y' &&
         <Pension
           pensionCode={pensionCode}
           setPensionCode={setPensionCode}
@@ -226,7 +282,7 @@ function NewPatientForm({}) {
           variant="contained" 
           color="primary" 
           onClick={handleSubmit} 
-          disabled={!(profileComplete && contactComplete && medicareComplete && pensionComplete && healthFundComplete)} >
+          disabled={!(profileComplete && contactComplete && medicareComplete && dVAComplete && pensionComplete && healthFundComplete)} >
           Submit
         </Button>
       </div>

@@ -17,6 +17,7 @@ export default function Profile({title, setTitle, firstName, setFirstName, lastN
   return (
     <Container maxWidth='sm' disableGutters style={{marginTop: 20, marginBottom: 20}}>
       <Typography variant='h6'>Patient profile</Typography>
+      <Typography variant='body2' gutterBottom>Bulk-billing requires patient's name matches with the name on your Medicare card or health fund card. Please enter the name as shown on your Medicare Card, health fund card or passport.</Typography>
       <FormControl fullWidth>
         <InputLabel htmlFor="title-native-simple">Title</InputLabel>
         <Select
@@ -34,7 +35,7 @@ export default function Profile({title, setTitle, firstName, setFirstName, lastN
       <TextField
         required
         margin="dense"
-        label="First name on the Medicare card"
+        label="First name"
         type="text"
         fullWidth
         value={firstName}
@@ -43,7 +44,7 @@ export default function Profile({title, setTitle, firstName, setFirstName, lastN
       <TextField
         required
         margin="dense"
-        label="Last name on the Medicare card"
+        label="Last name"
         type="text"
         fullWidth
         value={lastName}

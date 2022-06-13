@@ -7,6 +7,7 @@ const addMessageURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/add-message`
 const getNumVisitsURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/get-numvisits`
 const setEmergencyContactURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/set-emergency-contact`
 const updateHealthFundURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/update-healthfund`
+const updateDVAURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/update-DVA`
 
 const addMessageToBP = async (userID, subject, message, patID) => {
   try {
@@ -156,5 +157,23 @@ export const updateHealthFund = async (patientID, healthFundNo, healthFundName, 
     await axios(config)
   } catch(err) {
     console.error('BP_UpdateHealthFund error', err)
+  }
+}
+
+export const updateDVA = async (patientID, dVACode, dVANo) => {
+  try {
+    const config = {
+      method: 'post',
+      headers: {"Content-Type": "application/json"},
+      url: updateDVAURL,
+      data: {
+        patientID, 
+        dVACode,
+        dVANo
+      }
+    }
+    await axios(config)
+  } catch(err) {
+    console.error('BP_UpdatePatientDVA error', err)
   }
 }

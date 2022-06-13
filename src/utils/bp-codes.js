@@ -46,6 +46,29 @@ export const patientSexCodes = [
   }
 ]
 
+export const dVACodes = [
+  {
+    label: " ",
+    code: 0
+  },
+  {
+    label: "Gold",
+    code: 1
+  },
+  {
+    label: "White",
+    code: 2
+  },
+  {
+    label: "Lilac ",
+    code: 3
+  },
+  {
+    label: "Orange ",
+    code: 4
+  }
+]
+
 export const pensionCodes = [
   {
     label: " ",

@@ -17,44 +17,44 @@ export default function Pension({pensionCode, setPensionCode, pensionNo, setPens
   return (
     <Container maxWidth='sm' disableGutters style={{marginTop: 20, marginBottom: 20}}>
       <Typography variant='h6'>Pension</Typography>
-        <FormControl fullWidth>
-          <InputLabel htmlFor="pension-card-type">Pension card type*</InputLabel>
-          <Select
-            native
-            value={pensionCode}
-            onChange={event => setPensionCode(event.target.value)}
-            inputProps={{
-              name: 'pension-code',
-              id: 'pension-code',
-            }}
-          >
-            {pensionCodes.map((item, index) => <option key={index} value={item.code}>{item.label}</option>)}              
-          </Select>
-        </FormControl>
-        <TextField
+      <FormControl fullWidth>
+        <InputLabel htmlFor="pension-card-type">Pension card type*</InputLabel>
+        <Select
+          native
+          value={pensionCode}
+          onChange={event => setPensionCode(event.target.value)}
+          inputProps={{
+            name: 'pension-code',
+            id: 'pension-code',
+          }}
+        >
+          {pensionCodes.map((item, index) => <option key={index} value={item.code}>{item.label}</option>)}              
+        </Select>
+      </FormControl>
+      <TextField
+        required
+        margin="dense"
+        label="Card number"
+        type="text"
+        fullWidth
+        value={pensionNo}
+        onChange={(event) => setPensionNo(event.target.value.trim())}
+      />
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <KeyboardDatePicker
           required
-          margin="dense"
-          label="Card number"
-          type="text"
           fullWidth
-          value={pensionNo}
-          onChange={(event) => setPensionNo(event.target.value.trim())}
+          margin="normal"
+          id="date-picker-dialog"
+          format="dd/MM/yyyy"
+          label="Expiry(dd/MM/yyyy)"
+          value={pensionExpiry}
+          onChange={(date) => setPensionExpiry(date)}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
         />
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            required
-            fullWidth
-            margin="normal"
-            id="date-picker-dialog"
-            format="dd/MM/yyyy"
-            label="Expiry(dd/MM/yyyy)"
-            value={pensionExpiry}
-            onChange={(date) => setPensionExpiry(date)}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-          />
-        </MuiPickersUtilsProvider>            
-  </Container>
+      </MuiPickersUtilsProvider>            
+    </Container>
   )
 }
