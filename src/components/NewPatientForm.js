@@ -16,6 +16,7 @@ import Medicare from './Medicare'
 import DVA from './DVA'
 import Pension from './Pension'
 import HealthFund from './HealthFund'
+import Verification from './Verification'
 import moment from 'moment'
 import logo from '../images/AMCE_banner.png'
 
@@ -65,6 +66,7 @@ function NewPatientForm({}) {
   const [veteran, setVeteran] = useState("N")
   const [pension, setPension] = useState("N")
   const [healthFund, setHealthFund] = useState("N")
+  const [verified, setVerified] = useState(false)
   const profileComplete = firstName && lastName && dOB && gender > 0
   const contactComplete = address && mobile && emergencyContactFirstname && emergencyContactSurname && setEmergencyContactPhone && emergencyContactRelationship
   const medicareComplete = medicare === "N" || (medicareNo && iRN && expiry)
@@ -277,12 +279,14 @@ function NewPatientForm({}) {
           setPensionExpiry={setPensionExpiry}
         />
       }
+      <Verification mobile={mobile} verified={verified} setVerified={setVerified}/>
       <div className={classes.center}>
         <Button 
           variant="contained" 
           color="primary" 
           onClick={handleSubmit} 
-          disabled={!(profileComplete && contactComplete && medicareComplete && dVAComplete && pensionComplete && healthFundComplete)} >
+          disabled={!(profileComplete && contactComplete && medicareComplete && dVAComplete && pensionComplete && healthFundComplete && verified)} 
+        >
           Submit
         </Button>
       </div>

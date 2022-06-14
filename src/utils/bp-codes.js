@@ -60,10 +60,6 @@ export const dVACodes = [
     code: 2
   },
   {
-    label: "Lilac ",
-    code: 3
-  },
-  {
     label: "Orange ",
     code: 4
   }
