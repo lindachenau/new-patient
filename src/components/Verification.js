@@ -28,8 +28,12 @@ export default function Verification({mobile, verified, setVerified}) {
   }
 
   const handleVerify = () => {
-    if (code === key)
+    if (code === key) {
       setVerified(true)
+      alert("Your mobile number has been verified successfully.")
+    } else {
+      alert("The code you entered is incorrect. Check your code and VERIFY again.")
+    }
   }
 
   return (
@@ -61,7 +65,7 @@ export default function Verification({mobile, verified, setVerified}) {
       <Button
         color="primary" 
         onClick={handleVerify} 
-        disabled={verified  || mobile.length < 10 || key.length === 0}       
+        disabled={verified || mobile.length < 10 || key.length === 0}       
       >
         Verify
       </Button>
