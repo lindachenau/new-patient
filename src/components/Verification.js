@@ -45,13 +45,22 @@ export default function Verification({mobile, verified, setVerified}) {
         Press SEND to receive the code. After you enter the code you received, press VERIFY to enable submission. 
         If you don't receive the code within a few seconds, please check your mobile number.
       </Typography>
-      <Button
-        color="primary" 
-        onClick={() => sendVerificationCode(mobile, setKey)} 
-        disabled={verified || mobile.length < 10}       
-      >
-        Send
-      </Button>
+      <div style={{display: 'flex', justifyContent: 'space-around'}}>
+        <Button
+          color="primary" 
+          onClick={() => sendVerificationCode(mobile, setKey)} 
+          disabled={verified || mobile.length < 10}       
+        >
+          Send
+        </Button>
+        <Button
+          color="primary" 
+          onClick={handleVerify} 
+          disabled={verified || mobile.length < 10 || key.length === 0}       
+        >
+          Verify
+        </Button>
+      </div>
       <TextField
         required
         margin="dense"
@@ -62,13 +71,6 @@ export default function Verification({mobile, verified, setVerified}) {
         value={code}
         onChange={(event) => setCode(event.target.value.trim())}
       />
-      <Button
-        color="primary" 
-        onClick={handleVerify} 
-        disabled={verified || mobile.length < 10 || key.length === 0}       
-      >
-        Verify
-      </Button>
     </Container>
   )
 }
