@@ -66,7 +66,7 @@ export const getPatientFromBP = async (surname, firstname, dob) => {
 
 export const addPatientToBP = async (titleCode, firstname, surname, dob, sexCode, address1="", city="", postcode="", 
   email="", homePhone="", workPhone="", mobilePhone="", medicareNo="", medicareLineNo="", medicareExpiry="", 
-  pensionCode=0, pensionNo="", pensionExpiry=null) => {
+  pensionCode=0, pensionNo="", pensionExpiry=null, ethnicCode=0) => {
   console.log("The URL", addPatientURL)    
   try {
     const config = {
@@ -91,7 +91,8 @@ export const addPatientToBP = async (titleCode, firstname, surname, dob, sexCode
         medicareExpiry, 
         pensionCode, 
         pensionNo, 
-        pensionExpiry
+        pensionExpiry,
+        ethnicCode
       }
     }
     const result = await axios(config)

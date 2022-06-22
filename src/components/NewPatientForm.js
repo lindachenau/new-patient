@@ -19,6 +19,7 @@ import HealthFund from './HealthFund'
 import Verification from './Verification'
 import moment from 'moment'
 import logo from '../images/AMCE_banner.png'
+import { ethnicCodes } from '../utils/bp-codes'
 
 const useStyles = makeStyles(theme => ({
   center: {
@@ -42,6 +43,7 @@ function NewPatientForm({}) {
   const [lastName, setLastName] = useState('')
   const [dOB, setDOB] = useState(null)
   const [gender, setGender] = useState(0)
+  const [ethnicCode, setEthnicCode] = useState(0)
   const [medicareNo, setMedicareNo] = useState('')
   const [iRN, setIRN] = useState('')
   const [expiry, setExpiry] = useState('')
@@ -67,7 +69,7 @@ function NewPatientForm({}) {
   const [pension, setPension] = useState("N")
   const [healthFund, setHealthFund] = useState("N")
   const [verified, setVerified] = useState(false)
-  const profileComplete = firstName && lastName && dOB && gender > 0
+  const profileComplete = firstName && lastName && dOB && gender > 0 && ethnicCode > 0
   const contactComplete = address && mobile && emergencyContactFirstname && emergencyContactSurname && setEmergencyContactPhone && emergencyContactRelationship
   const medicareComplete = medicare === "N" || (medicareNo && iRN && expiry)
   const pensionComplete = pension === "N" || (pensionCode > 0 && pensionNo && pensionExpiry)
@@ -124,7 +126,8 @@ function NewPatientForm({}) {
       expiry,
       pensionCode, 
       pensionNo, 
-      pensionExpiryBP
+      pensionExpiryBP,
+      ethnicCode
     )
 
     if (patientID > 0) {
@@ -171,6 +174,8 @@ function NewPatientForm({}) {
         setDOB={setDOB}
         gender={gender}
         setGender={setGender}
+        ethnicCode={ethnicCode}
+        setEthnicCode={setEthnicCode}
       />
       <PatientContact
         address={address}

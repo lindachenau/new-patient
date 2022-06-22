@@ -10,9 +10,9 @@ import {
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
-import { patientTitles, patientSexCodes } from "../utils/bp-codes"
+import { patientTitles, patientSexCodes, ethnicCodes } from "../utils/bp-codes"
 
-export default function Profile({title, setTitle, firstName, setFirstName, lastName, setLastName, dOB, setDOB, gender, setGender}) {
+export default function Profile({title, setTitle, firstName, setFirstName, lastName, setLastName, dOB, setDOB, gender, setGender, ethnicCode, setEthnicCode}) {
 
   return (
     <Container maxWidth='sm' disableGutters style={{marginTop: 20, marginBottom: 20}}>
@@ -78,7 +78,21 @@ export default function Profile({title, setTitle, firstName, setFirstName, lastN
         >
           {patientSexCodes.map((item, index) => <option key={index} value={item.code}>{item.label}</option>)}              
         </Select>
-      </FormControl>                    
+      </FormControl>
+      <FormControl fullWidth>
+        <InputLabel htmlFor="ethnicity-native-simple">Ethnicity*</InputLabel>
+        <Select
+          native
+          value={ethnicCode}
+          onChange={event => setEthnicCode(parseInt(event.target.value))}
+          inputProps={{
+            name: 'ethnic code',
+            id: 'ethnicity-native-simple',
+          }}
+        >
+          {ethnicCodes.map((item, index) => <option key={index} value={item.ethnicCode}>{item.ethnicType}</option>)}              
+        </Select>
+      </FormControl>          
     </Container>
   )
 }
