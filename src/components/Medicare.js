@@ -47,7 +47,7 @@ export default function Medicare({medicareNo, setMedicareNo, iRN, setIRN, expiry
       <TextField
         required
         margin="dense"
-        label="IRN (the number before the patient's name)"
+        label="IRN(the no. before the patient's name)"
         placeholder="x"
         type="tel"
         fullWidth
