@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
+import Link from '@material-ui/core/Link'
 import Button from '@material-ui/core/Button'
 
 export default function Verification({mobile, verified, setVerified}) {
@@ -39,12 +40,16 @@ export default function Verification({mobile, verified, setVerified}) {
   return (
     <Container maxWidth='sm' disableGutters style={{marginTop: 20, marginBottom: 20}}>
       <Typography variant='h6'>Verification</Typography>
-      <Typography variant='body2' gutterBottom>
-        Before you can submit your completed form, we have to verify your mobile number. 
+      <Typography variant='caption'>
+        Our practice sends SMS communications to patients. Before you can submit your completed form, we have to verify your mobile number. 
         To do this, we will send a SMS to your mobile phone containing a 6 digit code. 
         Press SEND to receive the code. After you enter the code you received, press VERIFY to enable submission. 
-        If you don't receive the code within a few seconds, please check your mobile number.
+        If you don't receive the code within a few seconds, please check your mobile number. For further information about how we use 
+        SMS communications, please see our&nbsp; 
       </Typography>
+      <Link color='primary' variant='caption' href='https://aspiremedicalcentre.com.au/communication-policy/' underline="always" target='_blank'>
+        Communication Policy
+      </Link>
       <div style={{display: 'flex', justifyContent: 'space-around'}}>
         <Button
           color="primary" 
