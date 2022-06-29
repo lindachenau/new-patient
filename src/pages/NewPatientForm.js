@@ -3,23 +3,21 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
 import { addPatientToBP, getPatientFromBP, setEmergencyContact, updateHealthFund, updateDVA } from '../utils/booking-api'
-import Profile from './Profile'
-import PatientContact from './PatientContact'
-import Medicare from './Medicare'
-import DVA from './DVA'
-import Pension from './Pension'
-import HealthFund from './HealthFund'
-import Verification from './Verification'
+import Profile from '../components/Profile'
+import PatientContact from '../components/PatientContact'
+import Medicare from '../components/Medicare'
+import DVA from '../components/DVA'
+import Pension from '../components/Pension'
+import HealthFund from '../components/HealthFund'
+import Verification from '../components/Verification'
 import moment from 'moment'
 import logo from '../images/AMCE_banner.png'
-import { ethnicCodes } from '../utils/bp-codes'
 
 const useStyles = makeStyles(theme => ({
   center: {
@@ -75,6 +73,11 @@ function NewPatientForm({}) {
   const pensionComplete = pension === "N" || (pensionCode > 0 && pensionNo && pensionExpiry)
   const dVAComplete = veteran === "N" || (dVACode > 0 && dVANo)
   const healthFundComplete = healthFund === "N" || (healthFundName && healthFundNo && healthFundExpiry)
+  const clause = `Our practice sends SMS communications to patients. Before you can submit your completed form, 
+  we have to verify your mobile number. To do this, we will send a SMS to your mobile phone containing a 6 digit code. 
+  Press SEND to receive the code. After you enter the code you received, press VERIFY to enable submission. 
+  If you don't receive the code within a few seconds, please check your mobile number. 
+  For further information about how we use SMS communications, please see our&nbsp; `
 
   const parseAddress = (address) => {
     const comma = address.indexOf(',')
@@ -284,7 +287,7 @@ function NewPatientForm({}) {
           setPensionExpiry={setPensionExpiry}
         />
       }
-      <Verification mobile={mobile} verified={verified} setVerified={setVerified}/>
+      <Verification mobile={mobile} verified={verified} setVerified={setVerified} clause={clause}/>
       <div className={classes.center}>
         <Button 
           variant="contained" 

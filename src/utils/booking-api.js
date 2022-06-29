@@ -3,6 +3,7 @@ import { receptionID } from './bp-codes'
 
 const addPatientURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/add-patient`
 const getPatientURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/get-patient`
+const getPatientInfoURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/get-patientinfo`
 const addMessageURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/add-message`
 const getNumVisitsURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/get-numvisits`
 const setEmergencyContactURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/set-emergency-contact`
@@ -176,5 +177,22 @@ export const updateDVA = async (patientID, dVACode, dVANo) => {
     await axios(config)
   } catch(err) {
     console.error('BP_UpdatePatientDVA error', err)
+  }
+}
+
+export const fetchPatientInfo = async (patientID, setPatientInfo) => {
+  try {
+    const config = {
+      method: 'post',
+      headers: {"Content-Type": "application/json"},
+      url: getPatientInfoURL,
+      data: {
+        patientID       
+      }
+    }
+    const result = await axios(config)
+    setPatientInfo(result.data)
+  } catch(err) {
+    console.error('BP_GetPatientByInternalID error', err)
   }
 }

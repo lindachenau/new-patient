@@ -1,7 +1,9 @@
 import React from 'react'
 import { ThemeProvider } from '@material-ui/styles'
 import { createMuiTheme } from '@material-ui/core/styles'
-import NewPatientForm from './components/NewPatientForm'
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom"
+import NewPatientForm from './pages/NewPatientForm'
+import MobileVerification from './pages/MobileVerification'
 
 const theme = createMuiTheme({
   palette: {
@@ -15,10 +17,15 @@ const theme = createMuiTheme({
 })
 
 function App() {
-
+  
   return (
     <ThemeProvider theme={theme}>
-      <NewPatientForm/>
+      <Router>
+        <Routes>
+          <Route path="/" element={<NewPatientForm/>}/>
+          <Route path="/mobile" element={<MobileVerification/>}/>
+        </Routes>
+      </Router>
     </ThemeProvider>
   )
 }

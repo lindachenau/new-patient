@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField'
 import Link from '@material-ui/core/Link'
 import Button from '@material-ui/core/Button'
 
-export default function Verification({mobile, verified, setVerified}) {
+export default function Verification({mobile, verified, setVerified, clause}) {
   const [code, setCode] = useState(null)
   const [key, setKey] = useState('')
 
@@ -41,11 +41,7 @@ export default function Verification({mobile, verified, setVerified}) {
     <Container maxWidth='sm' disableGutters style={{marginTop: 20, marginBottom: 20}}>
       <Typography variant='h6'>Verification</Typography>
       <Typography variant='caption'>
-        Our practice sends SMS communications to patients. Before you can submit your completed form, we have to verify your mobile number. 
-        To do this, we will send a SMS to your mobile phone containing a 6 digit code. 
-        Press SEND to receive the code. After you enter the code you received, press VERIFY to enable submission. 
-        If you don't receive the code within a few seconds, please check your mobile number. For further information about how we use 
-        SMS communications, please see our&nbsp; 
+        {clause} 
       </Typography>
       <Link color='primary' variant='caption' href='https://aspiremedicalcentre.com.au/communication-policy/' underline="always" target='_blank'>
         Communication Policy
