@@ -6,7 +6,9 @@ import LocationSearchInput from './LocationSearchInput'
 
 export default function PatientContact({address, setAddress, email, setEmail, mobile, setMobile, homeNumber, setHomeNumber, workNumber, setWorkNumber, 
   emergencyContactFirstname, setEmergencyContactFirstname, emergencyContactSurname, setEmergencyContactSurname, 
-  emergencyContactPhone, setEmergencyContactPhone, emergencyContactRelationship, setEmergencyContactRelationship}) {
+  emergencyContactPhone, setEmergencyContactPhone, emergencyContactRelationship, setEmergencyContactRelationship,
+  nextOfKinFirstname, setNextOfKinFirstname, nextOfKinSurname, setNextOfKinSurname, 
+  nextOfKinPhone, setNextOfKinPhone, nextOfKinRelationship, setNextOfKinRelationship}) {
 
   const onChangeLocation = address => {
     setAddress(address.replace(', Australia', ''))
@@ -87,6 +89,42 @@ export default function PatientContact({address, setAddress, email, setEmail, mo
         fullWidth
         value={emergencyContactRelationship}
         onChange={(event) => setEmergencyContactRelationship(event.target.value.trim())}
+      />                              
+      <TextField
+        required
+        margin="dense"
+        label="Next of kin's firstname"
+        type="text"
+        fullWidth
+        value={nextOfKinFirstname}
+        onChange={(event) => setNextOfKinFirstname(event.target.value.trim())}
+      />                              
+      <TextField
+        required
+        margin="dense"
+        label="Next of kin's surname"
+        type="text"
+        fullWidth
+        value={nextOfKinSurname}
+        onChange={(event) => setNextOfKinSurname(event.target.value.trim())}
+      />                              
+      <TextField
+        required
+        margin="dense"
+        label="Next of kin's phone"
+        type="tel"
+        fullWidth
+        value={nextOfKinPhone}
+        onChange={(event) => setNextOfKinPhone(event.target.value.trim())}
+      />                              
+      <TextField
+        required
+        margin="dense"
+        label="Next of kin's relationship"
+        type="text"
+        fullWidth
+        value={nextOfKinRelationship}
+        onChange={(event) => setNextOfKinRelationship(event.target.value.trim())}
       />                              
     </Container>
   )

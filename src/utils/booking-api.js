@@ -7,6 +7,7 @@ const getPatientInfoURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/get-patient
 const addMessageURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/add-message`
 const getNumVisitsURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/get-numvisits`
 const setEmergencyContactURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/set-emergency-contact`
+const setNextOfKinURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/set-next-of-kin`
 const updateHealthFundURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/update-healthfund`
 const updateDVAURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/update-DVA`
 
@@ -140,6 +141,26 @@ export const setEmergencyContact = async (patientID, firstname, surname, contact
     await axios(config)
   } catch(err) {
     console.error('BP_SetEmergencyContact error', err)
+  }
+}
+
+export const setNextOfKin = async (patientID, firstname, surname, contactPhone, relationship) => {
+  try {
+    const config = {
+      method: 'post',
+      headers: {"Content-Type": "application/json"},
+      url: setNextOfKinURL,
+      data: {
+        patientID, 
+        firstname, 
+        surname, 
+        contactPhone, 
+        relationship
+      }
+    }
+    await axios(config)
+  } catch(err) {
+    console.error('BP_SetNextOfKin error', err)
   }
 }
 

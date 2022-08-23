@@ -8,7 +8,7 @@ import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
-import { addPatientToBP, getPatientFromBP, setEmergencyContact, updateHealthFund, updateDVA } from '../utils/booking-api'
+import { addPatientToBP, getPatientFromBP, setEmergencyContact, setNextOfKin, updateHealthFund, updateDVA } from '../utils/booking-api'
 import Profile from '../components/Profile'
 import PatientContact from '../components/PatientContact'
 import Medicare from '../components/Medicare'
@@ -54,6 +54,10 @@ function NewPatientForm({}) {
   const [emergencyContactSurname, setEmergencyContactSurname] = useState('')
   const [emergencyContactPhone, setEmergencyContactPhone] = useState('')
   const [emergencyContactRelationship, setEmergencyContactRelationship] = useState('')
+  const [nextOfKinFirstname, setNextOfKinFirstname] = useState('')
+  const [nextOfKinSurname, setNextOfKinSurname] = useState('')
+  const [nextOfKinPhone, setNextOfKinPhone] = useState('')
+  const [nextOfKinRelationship, setNextOfKinRelationship] = useState('')  
   const [pensionCode, setPensionCode] = useState(0)
   const [pensionNo, setPensionNo] = useState('')
   const [pensionExpiry, setPensionExpiry] = useState(null)
@@ -67,8 +71,10 @@ function NewPatientForm({}) {
   const [pension, setPension] = useState("N")
   const [healthFund, setHealthFund] = useState("N")
   const [verified, setVerified] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
   const profileComplete = firstName && lastName && dOB && gender > 0 && ethnicCode > 0
-  const contactComplete = address && mobile && emergencyContactFirstname && emergencyContactSurname && setEmergencyContactPhone && emergencyContactRelationship
+  const contactComplete = address && mobile && emergencyContactFirstname && emergencyContactSurname && emergencyContactPhone && emergencyContactRelationship &&
+    nextOfKinFirstname && nextOfKinSurname && nextOfKinPhone && nextOfKinRelationship
   const medicareComplete = medicare === "N" || (medicareNo && iRN && expiry)
   const pensionComplete = pension === "N" || (pensionCode > 0 && pensionNo && pensionExpiry)
   const dVAComplete = veteran === "N" || (dVACode > 0 && dVANo)
@@ -105,6 +111,7 @@ function NewPatientForm({}) {
     //Check if the patient already exists first
     const bpId = await getPatientFromBP(lastName, firstName, dobBP)
     if (bpId) {
+      setSubmitted(true)
       alert('You are already our patient. No need to register.')
       return
     }
@@ -134,8 +141,10 @@ function NewPatientForm({}) {
     )
 
     if (patientID > 0) {
+      setSubmitted(true)
       alert("Your registration has completed successfully.")
       setEmergencyContact(patientID, emergencyContactFirstname, emergencyContactSurname, emergencyContactPhone, emergencyContactRelationship)
+      setNextOfKin(patientID, nextOfKinFirstname, nextOfKinSurname, nextOfKinPhone, nextOfKinRelationship)
       if (veteran === "Y") {
         updateDVA(patientID, dVACode, dVANo)
       }
@@ -199,6 +208,15 @@ function NewPatientForm({}) {
         setEmergencyContactPhone={setEmergencyContactPhone}
         emergencyContactRelationship={emergencyContactRelationship}
         setEmergencyContactRelationship={setEmergencyContactRelationship}
+        nextOfKinFirstname={nextOfKinFirstname}
+        setNextOfKinFirstname={setNextOfKinFirstname}
+        nextOfKinSurname={nextOfKinSurname}
+        setNextOfKinSurname={setNextOfKinSurname}
+        nextOfKinPhone={nextOfKinPhone}
+        setNextOfKinPhone={setNextOfKinPhone}
+        nextOfKinRelationship={nextOfKinRelationship}
+        setNextOfKinRelationship={setNextOfKinRelationship}
+
       />
       <Container maxWidth='sm' disableGutters style={{marginTop: 30}}>
         <FormControl component="fieldset">
@@ -293,7 +311,7 @@ function NewPatientForm({}) {
           variant="contained" 
           color="primary" 
           onClick={handleSubmit} 
-          disabled={!(profileComplete && contactComplete && medicareComplete && dVAComplete && pensionComplete && healthFundComplete && verified)} 
+          disabled={!(profileComplete && contactComplete && medicareComplete && dVAComplete && pensionComplete && healthFundComplete && verified && !submitted)} 
         >
           Submit
         </Button>
