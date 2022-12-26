@@ -83,7 +83,7 @@ function NewPatientForm({}) {
   we have to verify your mobile number. To do this, we will send a SMS to your mobile phone containing a 6 digit code. 
   Press SEND to receive the code. After you enter the code you received, press VERIFY to enable submission. 
   If you don't receive the code within a few seconds, please check your mobile number. 
-  For further information about how we use SMS communications, please see our&nbsp; `
+  For further information about how we use SMS communications, please see our `
 
   
   
