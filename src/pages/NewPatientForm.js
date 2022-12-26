@@ -8,14 +8,14 @@ import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
-import { addPatientToBP, getPatientFromBP, setEmergencyContact, setNextOfKin, updateHealthFund, updateDVA } from '../utils/booking-api'
+import { addPatientToBP, getPatientFromBP, setEmergencyContact, setNextOfKin, updateHealthFund, updateDVA, parseAddress } from '../utils/booking-api'
 import Profile from '../components/Profile'
 import PatientContact from '../components/PatientContact'
 import Medicare from '../components/Medicare'
 import DVA from '../components/DVA'
 import Pension from '../components/Pension'
 import HealthFund from '../components/HealthFund'
-import Verification from '../components/Verification'
+import MobileVerification from '../components/MobileVerification'
 import moment from 'moment'
 import logo from '../images/AMCE_banner.png'
 
@@ -85,26 +85,7 @@ function NewPatientForm({}) {
   If you don't receive the code within a few seconds, please check your mobile number. 
   For further information about how we use SMS communications, please see our&nbsp; `
 
-  const parseAddress = (address) => {
-    const comma = address.indexOf(',')
-    let address1 = comma === -1 ? address : address.substring(0, comma)
-    const stateList = ['NSW', 'QLD', 'VIC', 'WA', 'NT', 'TAS', 'SA', 'ACT', 'JBT']
-    const states = stateList.filter(state => address.includes(state))
-    let city = ""
-    let postcode = ""
-
-    if (states.length === 1) {
-      const state = states[0]
-      const statePos = address.indexOf(state)
-      city = address.substring(comma + 1, statePos).trim()
-      postcode = address.substring(statePos + state.length).trim()
-    } else {
-      // parsing failed. Just save everything to address1
-      address1 = address
-    }
-
-    return {address1, city, postcode}
-  }
+  
   
   const handleSubmit = async() => {
     const dobBP = moment(dOB).format("YYYY-MM-DD")
@@ -216,7 +197,6 @@ function NewPatientForm({}) {
         setNextOfKinPhone={setNextOfKinPhone}
         nextOfKinRelationship={nextOfKinRelationship}
         setNextOfKinRelationship={setNextOfKinRelationship}
-
       />
       <Container maxWidth='sm' disableGutters style={{marginTop: 30}}>
         <FormControl component="fieldset">
@@ -305,7 +285,7 @@ function NewPatientForm({}) {
           setPensionExpiry={setPensionExpiry}
         />
       }
-      <Verification mobile={mobile} verified={verified} setVerified={setVerified} clause={clause}/>
+      <MobileVerification mobile={mobile} verified={verified} setVerified={setVerified} clause={clause}/>
       <div className={classes.center}>
         <Button 
           variant="contained" 

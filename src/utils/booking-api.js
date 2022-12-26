@@ -10,6 +10,8 @@ const setEmergencyContactURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/set-em
 const setNextOfKinURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/set-next-of-kin`
 const updateHealthFundURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/update-healthfund`
 const updateDVAURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/update-DVA`
+const updateAddressURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/update-address`
+const updateEmailURL = `${process.env.REACT_APP_ASPIRE_BP_SERVER}/update-email`
 
 const addMessageToBP = async (userID, subject, message, patID) => {
   try {
@@ -28,7 +30,7 @@ const addMessageToBP = async (userID, subject, message, patID) => {
 
     return result.data
   } catch(err) {
-    console.error('BP_ArriveAppointment error', err)
+    console.error('BP_AddMessage error', err)
   }
 }
 
@@ -138,7 +140,7 @@ export const setEmergencyContact = async (patientID, firstname, surname, contact
         relationship
       }
     }
-    await axios(config)
+    return axios(config)
   } catch(err) {
     console.error('BP_SetEmergencyContact error', err)
   }
@@ -158,7 +160,7 @@ export const setNextOfKin = async (patientID, firstname, surname, contactPhone, 
         relationship
       }
     }
-    await axios(config)
+    return axios(config)
   } catch(err) {
     console.error('BP_SetNextOfKin error', err)
   }
@@ -177,7 +179,7 @@ export const updateHealthFund = async (patientID, healthFundNo, healthFundName, 
         healthFundExpiry
       }
     }
-    await axios(config)
+    return axios(config)
   } catch(err) {
     console.error('BP_UpdateHealthFund error', err)
   }
@@ -195,7 +197,7 @@ export const updateDVA = async (patientID, dVACode, dVANo) => {
         dVANo
       }
     }
-    await axios(config)
+    return axios(config)
   } catch(err) {
     console.error('BP_UpdatePatientDVA error', err)
   }
@@ -216,4 +218,61 @@ export const fetchPatientInfo = async (patientID, setPatientInfo) => {
   } catch(err) {
     console.error('BP_GetPatientByInternalID error', err)
   }
+}
+
+export const updateAddress = async (patientID, address1, city, postcode) => {
+  try {
+    const config = {
+      method: 'post',
+      headers: {"Content-Type": "application/json"},
+      url: updateAddressURL,
+      data: {
+        patientID, 
+        address1, 
+        city, 
+        postcode
+      }
+    }
+    return axios(config)
+  } catch(err) {
+    console.error('BP_UpdateAddress error', err)
+  }
+}
+
+export const updateEmail = async (patientID, email) => {
+  try {
+    const config = {
+      method: 'post',
+      headers: {"Content-Type": "application/json"},
+      url: updateEmailURL,
+      data: {
+        patientID, 
+        email
+      }
+    }
+    return axios(config)
+  } catch(err) {
+    console.error('BP_UpdateEmail error', err)
+  }
+}
+
+export const parseAddress = (address) => {
+  const comma = address.indexOf(',')
+  let address1 = comma === -1 ? address : address.substring(0, comma)
+  const stateList = ['NSW', 'QLD', 'VIC', 'WA', 'NT', 'TAS', 'SA', 'ACT', 'JBT']
+  const states = stateList.filter(state => address.includes(state))
+  let city = ""
+  let postcode = ""
+
+  if (states.length === 1) {
+    const state = states[0]
+    const statePos = address.indexOf(state)
+    city = address.substring(comma + 1, statePos).trim()
+    postcode = address.substring(statePos + state.length).trim()
+  } else {
+    // parsing failed. Just save everything to address1
+    address1 = address
+  }
+
+  return {address1, city, postcode}
 }

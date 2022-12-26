@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles } from '@material-ui/core/styles'
-import { fetchPatientInfo } from '../utils/booking-api'
+import { fetchPatientInfo, updateEmail } from '../utils/booking-api'
 import logo from '../images/AMCE_banner.png'
 import Container from '@material-ui/core/Container'
-import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import { useLocation } from 'react-router-dom'
-import Verification from '../components/Verification'
+import Button from '@material-ui/core/Button'
+import * as EmailValidator from "email-validator"
 
 const useStyles = makeStyles(theme => ({
   center: {
@@ -24,20 +24,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const MobileVerification = ({ theme }) => {
+const EmailUpdatePage = ({ theme }) => {
   const classes = useStyles(theme)
   const [patientInfo, setPatientInfo] = useState(null)
-  const [verified, setVerified] = useState(false)
   const patientName = `${patientInfo?.firstname} ${patientInfo?.surname}`
-  const [mobile, setMobile] = useState('')
+  const [email, setEmail] = useState('')
   const location = useLocation()
-  const clause = `Our practice sends SMS communications to patients so we have to verify your mobile number. 
-  To do this, we will send a SMS to your mobile phone containing a 6 digit code. 
-  Press SEND to receive the code. After you enter the code you received, press VERIFY to enable submission. 
-  If you don't receive the code within a few seconds, please check your mobile number. 
-  For further information about how we use SMS communications, please see our&nbsp; `
-
-
+  
   useEffect(() => {
     const fetchPatient = async() => {
       const id = location.search.substring(4)
@@ -46,10 +39,10 @@ const MobileVerification = ({ theme }) => {
     fetchPatient()
   }, [location])
 
-  useEffect(() => {
-    if (patientInfo)
-      setMobile(patientInfo.mobilePhone)
-  }, [patientInfo])
+  const handleSubmit = async() => {
+    await updateEmail(patientInfo.patientID, email)
+    alert('Your email is updated successfully.')
+  }
 
   return (
     <Container maxWidth='sm' style={{marginTop: 20, marginBottom: 40}}>
@@ -57,7 +50,7 @@ const MobileVerification = ({ theme }) => {
         <img className={classes.logo} src={logo} alt="Aspire Medical Centre Eastwood logo" />
       </div>
       <Typography gutterBottom variant="h5" component="h2" align="center">
-        Mobile Number Verification for Existing Patient
+        Patient email update
       </Typography>            
       <TextField
         margin="dense"
@@ -68,14 +61,24 @@ const MobileVerification = ({ theme }) => {
       />
       <TextField
         margin="dense"
-        label="Mobile number"
-        type="tel"
+        label="email"
+        type="email"
         fullWidth
-        value={mobile}
+        value={email}
+        onChange={(event) => setEmail(event.target.value.trim())}
       />
-      <Verification mobile={mobile} verified={verified} setVerified={setVerified} clause={clause}/>
+      <div className={classes.center}>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={handleSubmit} 
+          disabled={!EmailValidator.validate(email)} 
+        >
+          Submit
+        </Button>
+      </div>
     </Container>
   )
 }
 
-export default MobileVerification
+export default EmailUpdatePage
