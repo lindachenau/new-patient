@@ -2,11 +2,6 @@ import React from 'react'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
-import DateFnsUtils from '@date-io/date-fns'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers'
 
 export default function HealthFund({healthFundNo, setHealthFundNo, healthFundName, setHealthFundName, healthFundExpiry, setHealthFundExpiry}) {
   return (
@@ -30,21 +25,6 @@ export default function HealthFund({healthFundNo, setHealthFundNo, healthFundNam
         value={healthFundNo}
         onChange={(event) => setHealthFundNo(event.target.value.trim())}
       />
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDatePicker
-          required
-          fullWidth
-          margin="normal"
-          id="date-picker-dialog"
-          format="dd/MM/yyyy"
-          label="Expiry(dd/MM/yyyy)"
-          value={healthFundExpiry}
-          onChange={(date) => setHealthFundExpiry(date)}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-      </MuiPickersUtilsProvider>            
     </Container>
   )
 }

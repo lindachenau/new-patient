@@ -32,6 +32,7 @@ export default function Verification({mobile, verified, setVerified, clause}) {
     if (code === key) {
       setVerified(true)
       alert("Your mobile number has been verified successfully.")
+      //Should record the status in a database in the future.
     } else {
       alert("The code you entered is incorrect. Check your code and VERIFY again.")
     }
