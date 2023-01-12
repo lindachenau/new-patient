@@ -39,7 +39,7 @@ export default function Profile({title, setTitle, firstName, setFirstName, lastN
         type="text"
         fullWidth
         value={firstName}
-        onChange={(event) => setFirstName(event.target.value.trim())}
+        onChange={(event) => setFirstName(event.target.value)}
       />
       <TextField
         required
@@ -48,7 +48,7 @@ export default function Profile({title, setTitle, firstName, setFirstName, lastN
         type="text"
         fullWidth
         value={lastName}
-        onChange={(event) => setLastName(event.target.value.trim())}
+        onChange={(event) => setLastName(event.target.value)}
       />
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker

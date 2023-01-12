@@ -101,8 +101,8 @@ function NewPatientForm({}) {
     const pensionExpiryBP = pensionExpiry ? moment(pensionExpiry).format("YYYY-MM-DD") : null
     const patientID = await addPatientToBP(
       title, 
-      firstName, 
-      lastName, 
+      firstName.trim(), 
+      lastName.trim(), 
       dobBP, 
       gender, 
       address1, 
