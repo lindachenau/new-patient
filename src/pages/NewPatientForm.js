@@ -70,7 +70,8 @@ function NewPatientForm({}) {
   const [veteran, setVeteran] = useState("N")
   const [pension, setPension] = useState("N")
   const [healthFund, setHealthFund] = useState("N")
-  const [verified, setVerified] = useState(false)
+  //Temporarily bypass mobile verification
+  const [verified, setVerified] = useState(true)
   const [submitted, setSubmitted] = useState(false)
   const profileComplete = firstName && lastName && dOB && gender > 0 && ethnicCode > 0
   const contactComplete = address && mobile && emergencyContactFirstname && emergencyContactSurname && emergencyContactPhone && emergencyContactRelationship &&
@@ -285,7 +286,7 @@ function NewPatientForm({}) {
           setPensionExpiry={setPensionExpiry}
         />
       }
-      <MobileVerification mobile={mobile} verified={verified} setVerified={setVerified} clause={clause}/>
+      {/* <MobileVerification mobile={mobile} verified={verified} setVerified={setVerified} clause={clause}/> */}
       <div className={classes.center}>
         <Button 
           variant="contained" 
