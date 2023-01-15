@@ -91,8 +91,8 @@ function NewPatientForm({}) {
   const handleSubmit = async() => {
     const dobBP = moment(dOB).format("YYYY-MM-DD")
     //Check if the patient already exists first
-    const patList = await getPatientFromBP(lastName, firstName, dobBP)
-    if (patList.length > 0) {
+    const bpId = await getPatientFromBP(lastName, firstName, dobBP)
+    if (bpId) {
       setSubmitted(true)
       alert('You are already our patient. No need to register.')
       return
