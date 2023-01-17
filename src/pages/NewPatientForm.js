@@ -65,7 +65,7 @@ function NewPatientForm({}) {
   const [dVANo, setDVANo] = useState('')
   const [healthFundNo, setHealthFundNo] = useState('')
   const [healthFundName, setHealthFundName] = useState('')
-  const [healthFundExpiry, setHealthFundExpiry] = useState(null)
+  const [healthFundExpiry, setHealthFundExpiry] = useState(moment(new Date()).format("YYYY-MM-DD"))
   const [medicare, setMedicare] = useState("Y")
   const [veteran, setVeteran] = useState("N")
   const [pension, setPension] = useState("N")
@@ -89,11 +89,12 @@ function NewPatientForm({}) {
   
   
   const handleSubmit = async() => {
+    //preventing multiple submits
+    setSubmitted(true)
     const dobBP = moment(dOB).format("YYYY-MM-DD")
     //Check if the patient already exists first
     const bpId = await getPatientFromBP(lastName, firstName, dobBP)
     if (bpId) {
-      setSubmitted(true)
       alert('You are already our patient. No need to register.')
       return
     }
@@ -123,7 +124,6 @@ function NewPatientForm({}) {
     )
 
     if (patientID > 0) {
-      setSubmitted(true)
       alert("Your registration has completed successfully.")
       setEmergencyContact(patientID, emergencyContactFirstname, emergencyContactSurname, emergencyContactPhone, emergencyContactRelationship)
       setNextOfKin(patientID, nextOfKinFirstname, nextOfKinSurname, nextOfKinPhone, nextOfKinRelationship)
