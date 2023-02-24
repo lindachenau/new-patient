@@ -124,7 +124,7 @@ function NewPatientForm({}) {
     )
 
     if (patientID > 0) {
-      alert("Your registration has completed successfully.")
+      alert("Your registration has completed successfully. You can now go to https://aspiremedicalcentre.com.au/ or call 91899667 to book appointments.")
       setEmergencyContact(patientID, emergencyContactFirstname, emergencyContactSurname, emergencyContactPhone, emergencyContactRelationship)
       setNextOfKin(patientID, nextOfKinFirstname, nextOfKinSurname, nextOfKinPhone, nextOfKinRelationship)
       if (veteran === "Y") {
